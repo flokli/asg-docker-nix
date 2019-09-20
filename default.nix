@@ -1,6 +1,12 @@
 rec {
   pkgs = import ./nixpkgs {};
 
+  userSetup = self.runCommand "user-setup" { } ''
+    mkdir -p $out/etc/
+
+    echo "root:x:0:0:root user:/root:${pkgs.bash}/bin/bash" >> $out/etc/passwd
+  '';
+
   nixos-icon = "${pkgs.nixos-icons}/share/icons/hicolor/512x512/apps/nix-snowflake.png";
 
   indexHtml =
@@ -25,6 +31,7 @@ rec {
 
   nginxContainer = pkgs.dockerTools.buildLayeredImage {
     name = "nginx-container";
+    contents = [ userSetup ];
     config = {
       Cmd = [ "${pkgs.nginx}/bin/nginx" "-c" "${nginxConfig}" ];
       ExposedPorts."80" = {};
