@@ -21,14 +21,10 @@ rec {
     }
   '';
 
-  runNginx = pkgs.writeScriptBin "run-nginx" ''
-    ${pkgs.nginx}/bin/nginx -c ${nginxConfig}
-  '';
-
   nginxContainer = pkgs.dockerTools.buildLayeredImage {
     name = "nginx-container";
     config = {
-      Cmd = [ runNginx ];
+      Cmd = [ "${pkgs.nginx}/bin/nginx" "-c" "${nginxConfig}" ];
     };
   };
 
