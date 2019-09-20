@@ -1,5 +1,8 @@
 rec {
-  pkgs = import ./nixpkgs {};
+  pkgs = import (fetchTarball rec {
+    sha256 = "1hz2qrqzzfk41hhsiakailhl830a4q01xw9gr9ffql020qcq6ms0";
+    url = "https://github.com/flokli/nixpkgs/archive/b5650cd1c50dff382b2995e569235ecc6a3eaa89.tar.gz";
+  }) {};
 
   userSetup = pkgs.runCommand "user-setup" { } ''
     mkdir -p $out/etc/
