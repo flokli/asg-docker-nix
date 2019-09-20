@@ -12,3 +12,5 @@ show-deps-both:
 
 run-nginx: build-nginx
 	docker run -p 8000:80 nginx-container:$(shell nix-build -A nginxContainer | cut -d "/" -f 4 | cut -d "-" -f 1)
+run-redis: build-redis
+	docker run -p 6379:6379 redis-container:$(shell nix-build -A redisContainer | cut -d "/" -f 4 | cut -d "-" -f 1)
