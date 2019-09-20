@@ -10,5 +10,5 @@ show-deps-redis:
 show-deps-both:
 	nix-store --query --graph $(shell nix-build -A nginxContainer.layers -A redisContainer.layers --no-out-link) | xdot -
 
-run-nginx:
+run-nginx: build-nginx
 	docker run -p 8000:80 nginx-container:$(shell nix-build -A nginxContainer | cut -d "/" -f 4 | cut -d "-" -f 1)
