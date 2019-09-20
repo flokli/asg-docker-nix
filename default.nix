@@ -1,4 +1,5 @@
 rec {
+  # pin a specific nixpgks checkout
   pkgs = import (fetchTarball rec {
     sha256 = "1hz2qrqzzfk41hhsiakailhl830a4q01xw9gr9ffql020qcq6ms0";
     url = "https://github.com/flokli/nixpkgs/archive/b5650cd1c50dff382b2995e569235ecc6a3eaa89.tar.gz";
@@ -39,6 +40,10 @@ rec {
     }
   '';
 
+  redisConfig = pkgs.writeText "redis.conf" ''
+    port 6379
+  '';
+
   nginxContainer = pkgs.dockerTools.buildLayeredImage {
     name = "nginx-container";
     contents = [ etcPasswd etcGroup ];
@@ -47,10 +52,6 @@ rec {
       ExposedPorts."80" = {};
     };
   };
-
-  redisConfig = pkgs.writeText "redis.conf" ''
-    port 6379
-  '';
 
   redisContainer = pkgs.dockerTools.buildLayeredImage {
     name = "redis-container";
