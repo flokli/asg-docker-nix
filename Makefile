@@ -22,5 +22,5 @@ dive-redis: build-nginx
 
 clean:
 	nix-collect-garbage
-	docker container prune
+	docker container prune -f
 	docker image prune -a -f
