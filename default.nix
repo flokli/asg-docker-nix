@@ -34,7 +34,7 @@ rec {
 
   redisContainer = pkgs.dockerTools.buildLayeredImage {
     name = "redis-container";
-    config = { 
+    config = {
       Cmd = [ "${pkgs.redis}/bin/redis-server" "${redisConfig}" ];
     };
   };
