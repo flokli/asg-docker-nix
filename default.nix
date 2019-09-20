@@ -14,10 +14,12 @@ rec {
   nginxConfig = pkgs.writeText "nginx.conf" ''
     daemon off;
     http {
-      server 80;
-      location / {
-        root ${indexHtml}
-      };
+      server {
+        listen 80;
+        location / {
+          root ${indexHtml};
+        }
+      }
     }
   '';
 
