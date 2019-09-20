@@ -4,12 +4,14 @@ rec {
     url = "https://github.com/flokli/nixpkgs/archive/b5650cd1c50dff382b2995e569235ecc6a3eaa89.tar.gz";
   }) {};
 
-  userSetup = pkgs.runCommand "user-setup" { } ''
-    mkdir -p $out/etc/
-    echo "root:x:0:0:root user:/root:${pkgs.bash}/bin/bash" > $out/etc/passwd
-    echo "nobody:x:65534:65534:nobody:/var/empty:${pkgs.bash}/bin/bash" >> $out/etc/passwd
-    echo "root:x:0:" > $out/etc/group
-    echo "nogroup:x:65534:" >> $out/etc/group
+  etcPasswd = pkgs.writeTextDir "etc/passwd" ''
+    root:x:0:0:root user:/root:${pkgs.bash}/bin/bash
+    nobody:x:65534:65534:nobody:/var/empty:${pkgs.bash}/bin/bash
+  '';
+
+  etcGroup = pkgs.writeTextDir "etc/group" ''
+    root:x:0:
+    nogroup:x:65534:
   '';
 
   indexHtml =
@@ -39,7 +41,7 @@ rec {
 
   nginxContainer = pkgs.dockerTools.buildLayeredImage {
     name = "nginx-container";
-    contents = [ userSetup ];
+    contents = [ etcPasswd etcGroup ];
     config = {
       Cmd = [ "${pkgs.nginx}/bin/nginx" "-c" "${nginxConfig}" ];
       ExposedPorts."80" = {};
