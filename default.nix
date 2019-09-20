@@ -25,6 +25,7 @@ rec {
     name = "nginx-container";
     config = {
       Cmd = [ "${pkgs.nginx}/bin/nginx" "-c" "${nginxConfig}" ];
+      ExposedPorts."80" = {};
     };
   };
 
@@ -36,6 +37,7 @@ rec {
     name = "redis-container";
     config = {
       Cmd = [ "${pkgs.redis}/bin/redis-server" "${redisConfig}" ];
+      ExposedPorts."6379" = {};
     };
   };
 }
