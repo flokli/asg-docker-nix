@@ -1,5 +1,5 @@
 rec {
-  pkgs = import <nixpkgs> {};
+  pkgs = import ./nixpkgs {};
 
   nixos-icon = "${pkgs.nixos-icons}/share/icons/hicolor/512x512/apps/nix-snowflake.png";
 
