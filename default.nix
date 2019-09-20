@@ -3,7 +3,7 @@ rec {
 
   nixos-icon = "${pkgs.nixos-icons}/share/icons/hicolor/512x512/apps/nix-snowflake.png";
 
-  indexHtml = 
+  indexHtml =
     pkgs.writeTextDir "index.html" ''
       <!doctype htm>
       <h1>Hello from Nix</h1>
