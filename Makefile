@@ -1,6 +1,6 @@
-container-nginx:
+build-nginx:
 	docker image load -i $(shell nix-build -A nginxContainer --no-out-link)
-container-redis:
+build-redis:
 	docker image load -i $(shell nix-build -A redisContainer --no-out-link)
 
 show-deps-nginx:
