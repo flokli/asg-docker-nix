@@ -19,3 +19,8 @@ dive-nginx: build-nginx
 	dive nginx-container:$(shell nix-build -A nginxContainer --no-out-link | cut -d "/" -f 4 | cut -d "-" -f 1)
 dive-redis: build-nginx
 	dive redis-container:$(shell nix-build -A redisContainer --no-out-link | cut -d "/" -f 4 | cut -d "-" -f 1)
+
+clean:
+	nix-collect-garbage
+	docker container prune
+	docker image prune -a -f
