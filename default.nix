@@ -25,10 +25,21 @@ rec {
     ${pkgs.nginx}/bin/nginx -c ${nginxConfig}
   '';
 
-  container = pkgs.dockerTools.buildLayeredImage {
+  nginxContainer = pkgs.dockerTools.buildLayeredImage {
     name = "nginx-container";
     config = {
       Cmd = [ runNginx ];
+    };
+  };
+
+  redisConfig = pkgs.writeText "redis.conf" ''
+    port 6379
+  '';
+
+  redisContainer = pkgs.dockerTools.buildLayeredImage {
+    name = "redis-container";
+    config = { 
+      Cmd = [ "${pkgs.redis}/bin/redis-server" "${redisConfig}" ];
     };
   };
 }
